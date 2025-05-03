@@ -1,0 +1,64 @@
+import java.applet.Applet;
+import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+/* <applet code="KeyStatusApplet" width=400 height=200>
+   </applet> */
+
+public class KeyStatusApplet extends Applet implements KeyListener {
+
+    String message = "";
+    String status = "";
+
+    public void init() {
+        addKeyListener(this); // Register key listener
+        requestFocus();       // Ensure applet gets keyboard focus
+    }
+
+    public void keyPressed(KeyEvent ke) {
+        status = "Key Down (Pressed)";
+        message = "Key Pressed: " + ke.getKeyChar();
+        repaint();
+    }
+
+    public void keyReleased(KeyEvent ke) {
+        status = "Key Up (Released)";
+        message = "Key Released: " + ke.getKeyChar();
+        repaint();
+    }
+
+    public void keyTyped(KeyEvent ke) {
+        // KeyTyped is different from keyPressed: it's for characters
+        message = "Key Typed: " + ke.getKeyChar();
+        repaint();
+    }
+
+    public void paint(Graphics g) {
+        g.drawString(status, 20, 80);
+        g.drawString(message, 20, 100);
+    }
+}
+
+
+
+
+
+
+
+//html file
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Key Event Applet</title>
+</head>
+<body>
+    <h2>Key Status Applet</h2>
+    <p>Click inside the applet and press any key to see the status.</p>
+
+    <applet code="KeyStatusApplet.class" width="400" height="200">
+        Your browser does not support Java Applets.
+    </applet>
+</body>
+</html>
