@@ -1,0 +1,45 @@
+import java.sql.*;
+
+public class JDBCDemo {
+    static final String DB_URL = "jdbc:mysql://localhost/";
+    static final String USER = "root";
+    static final String PASS = "root";
+
+    public static void main(String[] args) {
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+            // Step 1: Connect to MySQL server (no specific DB yet)
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            stmt = conn.createStatement();
+
+            // Step 2: Create Database
+            String sql = "CREATE DATABASE EMPLOYEE";
+            stmt.executeUpdate(sql);
+            System.out.println("Database created successfully...");
+
+            // Step 3: Connect to the new STUDENTS database
+            conn = DriverManager.getConnection(DB_URL + "EMPLOYEE", USER, PASS);
+            stmt = conn.createStatement();
+
+            // Step 4: Create a table
+            String createTableSQL = "CREATE TABLE employee " +
+                                    "(id INT AUTO_INCREMENT PRIMARY KEY, " +
+                                    " name VARCHAR(255), " +
+                                    " age INT)";
+            stmt.executeUpdate(createTableSQL);
+            System.out.println("Table 'employee' created successfully...");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Clean up
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
+}
